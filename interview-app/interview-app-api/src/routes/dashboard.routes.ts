@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import axios from 'axios';
 import { isAuthenticated, isProfileComplete } from '../middleware/auth';
+import prisma from '../db/client';
 
 const router = Router();
 const API_URL = process.env.API_URL || 'http://localhost:3000';
@@ -30,6 +31,21 @@ router.post('/onboarding', isAuthenticated, async (req, res) => {
     res.redirect('/dashboard/onboarding');
   }
 });
+
+
+router.get("/questions", async (req, res) => {
+  const meetup = await prisma.meetupEvent.findFirst({
+    orderBy: { sessionDate: "asc" },
+    include: {
+      questions: {
+        orderBy: { orderIndex: "asc" },
+      },
+    },
+  });
+
+  res.json(meetup?.questions ?? []);
+});
+
 
 // Dashboard page
 router.get('/', isAuthenticated, isProfileComplete, async (req, res) => {
