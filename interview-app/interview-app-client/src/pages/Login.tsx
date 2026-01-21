@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { authAPI } from "../services/api";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.API_URL || "http://localhost:3000";
 
 export default function Login() {
   const handleLogin = () => {
@@ -17,9 +17,9 @@ export default function Login() {
 
         <button
           onClick={handleLogin}
-          className="w-[140px] py-3 bg-black text-white rounded"
+          className="w-35 bg-black text-white rounded-xl p-6 cursor-pointer"
         >
-          Sign in with Google
+          Sign in
         </button>
       </div>
     </div>
