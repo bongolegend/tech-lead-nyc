@@ -224,9 +224,3 @@ npm run cli -- list-questions --category behavioral
 - CLI uses Prisma directly and disconnects after each command
 
 ---
-
-## Next Steps
-
-- Add more interview questions via CLI
-- Improve dashboard layout and navigation
-- Add onboarding and attendee workflows
