@@ -17,7 +17,7 @@ export default function Login() {
 
         <button
           onClick={handleLogin}
-          className="w-full py-3 bg-black text-white rounded"
+          className="w-[140px] py-3 bg-black text-white rounded"
         >
           Sign in with Google
         </button>

@@ -44,7 +44,7 @@ export default function Dashboard() {
             </div>
 
             {/* Questions */}
-            <div className="tw-mt-2">
+            <div className="mt-12">
               {group.questions.map((q, index) => (
                 <div
                   key={q.id}
