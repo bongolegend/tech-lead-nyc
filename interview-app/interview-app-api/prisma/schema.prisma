@@ -1,0 +1,152 @@
+// prisma/schema.prisma
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    email                String   @id @db.VarChar(255)
+    name                 String?  @db.VarChar(255)
+    googleId             String?  @unique @map("google_id") @db.VarChar(255)
+    professionalLevel    String?  @map("professional_level") @db.VarChar(50) // "professional" or "student"
+    hasBeenHiringManager Boolean? @map("has_been_hiring_manager")
+    profileCompleted     Boolean  @default(false) @map("profile_completed")
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+    attendancePercentage Int      @default(0) @map("attendance_percentage")
+
+    // Relations
+    matchesAsUser1   Match[]            @relation("MatchUser1")
+    matchesAsUser2   Match[]            @relation("MatchUser2")
+    attendanceEvents AttendanceEvent[]
+    sessionsAsUser1  InterviewSession[] @relation("SessionUser1")
+    sessionsAsUser2  InterviewSession[] @relation("SessionUser2")
+    rubricsCreated   GradingRubric[]    @relation("RubricCreator")
+    rubricsReceived  GradingRubric[]    @relation("RubricSubject")
+
+    @@map("users")
+}
+
+model MeetupEvent {
+    id          Int      @id @default(autoincrement())
+    sessionDate DateTime @unique @map("session_date")
+    title       String?  @db.VarChar(255)
+    description String?  @db.Text
+    location    String?  @db.VarChar(255)
+    createdAt   DateTime @default(now()) @map("created_at")
+
+    // Relations
+    questions        InterviewQuestion[]
+    attendanceEvents AttendanceEvent[]
+    matches          Match[]
+
+    @@map("meetup_events")
+}
+
+model InterviewQuestion {
+    id            Int      @id @default(autoincrement())
+    meetupEventId Int      @map("meetup_event_id")
+    questionText  String   @map("question_text") @db.Text
+    category      String?  @db.VarChar(100)
+    orderIndex    Int      @default(0) @map("order_index") // For displaying questions in order
+    createdAt     DateTime @default(now()) @map("created_at")
+
+    // Relations
+    meetupEvent MeetupEvent @relation(fields: [meetupEventId], references: [id], onDelete: Cascade)
+
+    @@map("interview_questions")
+}
+
+model Match {
+    id            Int      @id @default(autoincrement())
+    meetupEventId Int      @map("meetup_event_id")
+    user1Email    String   @map("user1_email") @db.VarChar(255)
+    user2Email    String   @map("user2_email") @db.VarChar(255)
+    createdAt     DateTime @default(now()) @map("created_at")
+
+    // Relations
+    meetupEvent      MeetupEvent       @relation(fields: [meetupEventId], references: [id], onDelete: Cascade)
+    user1            User              @relation("MatchUser1", fields: [user1Email], references: [email], onDelete: Cascade)
+    user2            User              @relation("MatchUser2", fields: [user2Email], references: [email], onDelete: Cascade)
+    interviewSession InterviewSession?
+
+    @@unique([meetupEventId, user1Email, user2Email])
+    @@map("matches")
+}
+
+model AttendanceEvent {
+    id            Int      @id @default(autoincrement())
+    userEmail     String   @map("user_email") @db.VarChar(255)
+    meetupEventId Int      @map("meetup_event_id")
+    confirmed     Boolean  @default(false) // User RSVP'd
+    attended      Boolean  @default(false) // User actually clicked "Begin Interview"
+    createdAt     DateTime @default(now()) @map("created_at")
+    updatedAt     DateTime @updatedAt @map("updated_at")
+
+    // Relations
+    user        User        @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+    meetupEvent MeetupEvent @relation(fields: [meetupEventId], references: [id], onDelete: Cascade)
+
+    @@unique([userEmail, meetupEventId])
+    @@map("attendance_events")
+}
+
+model InterviewSession {
+    id             Int       @id @default(autoincrement())
+    matchId        Int       @unique @map("match_id")
+    user1Email     String    @map("user1_email") @db.VarChar(255)
+    user2Email     String    @map("user2_email") @db.VarChar(255)
+    completed      Boolean   @default(false)
+    sessionStarted Boolean   @default(false) @map("session_started")
+    createdAt      DateTime  @default(now()) @map("created_at")
+    completedAt    DateTime? @map("completed_at")
+
+    // Relations
+    match          Match           @relation(fields: [matchId], references: [id], onDelete: Cascade)
+    user1          User            @relation("SessionUser1", fields: [user1Email], references: [email], onDelete: Cascade)
+    user2          User            @relation("SessionUser2", fields: [user2Email], references: [email], onDelete: Cascade)
+    gradingRubrics GradingRubric[]
+
+    @@map("interview_sessions")
+}
+
+model RubricTemplate {
+    id          Int      @id @default(autoincrement())
+    criteria    String   @db.Text
+    maxPoints   Int      @map("max_points")
+    description String?  @db.Text
+    orderIndex  Int      @default(0) @map("order_index")
+    createdAt   DateTime @default(now()) @map("created_at")
+
+    // Relations
+    gradingRubrics GradingRubric[]
+
+    @@map("rubric_templates")
+}
+
+model GradingRubric {
+    id               Int       @id @default(autoincrement())
+    sessionId        Int       @map("session_id")
+    templateId       Int       @map("template_id")
+    interviewerEmail String    @map("interviewer_email") @db.VarChar(255)
+    intervieweeEmail String    @map("interviewee_email") @db.VarChar(255)
+    points           Int?
+    feedback         String?   @db.Text // User's written feedback
+    completed        Boolean   @default(false)
+    createdAt        DateTime  @default(now()) @map("created_at")
+    completedAt      DateTime? @map("completed_at")
+
+    // Relations
+    interviewSession InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    template         RubricTemplate   @relation(fields: [templateId], references: [id], onDelete: Cascade)
+    interviewer      User             @relation("RubricCreator", fields: [interviewerEmail], references: [email], onDelete: Cascade)
+    interviewee      User             @relation("RubricSubject", fields: [intervieweeEmail], references: [email], onDelete: Cascade)
+
+    @@unique([sessionId, interviewerEmail, templateId])
+    @@map("grading_rubrics")
+}
