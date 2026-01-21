@@ -1,6 +1,20 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Env
+.env
+.env.*
+
+# Builds
+dist/
+build/
+
+# OS / editor
+.DS_Store
+.vscode/
+
 interview-app-api/node_modules
 interview-app-api/node_modules/*
 interview-app-client/node_modules
 interview-app-client/node_modules/*
-.env
-**/.env
