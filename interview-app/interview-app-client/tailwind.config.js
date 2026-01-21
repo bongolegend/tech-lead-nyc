@@ -5,5 +5,4 @@ export default {
     extend: {},
   },
   plugins: [],
-  exclude: ["vite.config.ts"],
 };
