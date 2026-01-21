@@ -27,6 +27,10 @@ Create a `.env` file in `interview-app-api`:
 
 ```env
 DATABASE_URL="postgresql://<db_user>:<db_password>@localhost:5432/<db_name>"
+
+PORT=3000
+NODE_ENV=development
+
 SESSION_SECRET="some-long-random-string"
 
 GOOGLE_CLIENT_ID="your-google-client-id"
