@@ -31,7 +31,7 @@ SESSION_SECRET="some-long-random-string"
 
 GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
-
+GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
 FRONTEND_URL="http://localhost:5173"
 ```
 
