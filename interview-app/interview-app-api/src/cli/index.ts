@@ -183,6 +183,9 @@ program
   .description('Add a rubric template (used for all sessions)')
   .requiredOption('-c, --criteria <criteria>', 'Rubric criteria')
   .requiredOption('-p, --points <points>', 'Max points for this criteria')
+  .requiredOption('--developing <text>', 'Developing example text')
+  .requiredOption('--proficient <text>', 'Proficient example text')
+  .requiredOption('--exceptional <text>', 'Exceptional example text')
   .option('-d, --description <description>', 'Detailed description')
   .option('-o, --order <order>', 'Display order index', '0')
   .action(async (options) => {
@@ -190,16 +193,17 @@ program
       const template = await prisma.rubricTemplate.create({
         data: {
           criteria: options.criteria,
-          maxPoints: parseInt(options.points),
+          maxPoints: parseInt(options.points, 10),
+          developing: options.developing,
+          proficient: options.proficient,
+          exceptional: options.exceptional,
           description: options.description || null,
-          orderIndex: parseInt(options.order),
+          orderIndex: parseInt(options.order, 10),
         },
       });
+
       console.log('\nRubric template created successfully!');
-      console.log(`   ID: ${template.id}`);
-      console.log(`   Criteria: ${template.criteria}`);
-      console.log(`   Max Points: ${template.maxPoints}`);
-      console.log(`   Order: ${template.orderIndex}\n`);
+      console.log(`ID: ${template.id}`);
     } catch (error) {
       console.error('Error creating rubric template:', error);
     } finally {
@@ -213,16 +217,16 @@ program
   .action(async () => {
     try {
       const templates = await prisma.rubricTemplate.findMany({
-        orderBy: {
-          orderIndex: 'asc',
-        },
+        orderBy: { orderIndex: 'asc' },
       });
 
-      console.log(`\nFound ${templates.length} rubric template(s):\n`);
       templates.forEach((t) => {
         console.log(`ID: ${t.id}`);
         console.log(`Criteria: ${t.criteria}`);
         console.log(`Max Points: ${t.maxPoints}`);
+        console.log(`Developing: ${t.developing}`);
+        console.log(`Proficient: ${t.proficient}`);
+        console.log(`Exceptional: ${t.exceptional}`);
         console.log(`Description: ${t.description || 'N/A'}`);
         console.log(`Order: ${t.orderIndex}`);
         console.log('---');
@@ -241,7 +245,7 @@ program
   .action(async (options) => {
     try {
       await prisma.rubricTemplate.delete({
-        where: { id: parseInt(options.id) },
+        where: { id: parseInt(options.id, 10) },
       });
       console.log('Rubric template deleted successfully!');
     } catch (error) {

@@ -74,10 +74,26 @@ export interface User {
     templateId: number;
     interviewerEmail: Email;
     intervieweeEmail: Email;
-    points?: number | null;
-    feedback?: string | null;
+  
+    q1Points?: number | null;
+    q2Points?: number | null;
+    q1Feedback?: string | null;
+    q2Feedback?: string | null;
+  
     completed: boolean;
     createdAt: string;
     completedAt?: string | null;
+  
+    template?: {
+      id: number;
+      criteria: string;
+      maxPoints: number;
+      developing: string;
+      proficient: string;
+      exceptional: string;
+      description?: string | null;
+      orderIndex: number;
+      createdAt: string;
+    };
   }
   
