@@ -7,6 +7,7 @@ type InterviewQuestion = {
 };
 
 const CATEGORY_ORDER = ["behavioral", "systems-design", "coding"];
+const ROUTING_URL = "http://localhost:5173";
 
 export default function Dashboard() {
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
@@ -50,6 +51,10 @@ export default function Dashboard() {
     questions: questions.filter((q) => q.category === category),
   })).filter((g) => g.questions.length > 0);
 
+  const handleClickRubricButton = () => {
+    window.location.href = `${ROUTING_URL}/rubrics`;
+  };
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6">Interview Questions</h1>
@@ -86,6 +91,13 @@ export default function Dashboard() {
             </div>
           ))
         )}
+        <button
+          className="max-w-45 bg-black text-white rounded-xl p-4 cursor-pointer"
+          type="button"
+          onClick={handleClickRubricButton}
+        >
+          Grading Rubric
+        </button>
       </div>
     </div>
   );
