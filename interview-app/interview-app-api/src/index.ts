@@ -56,6 +56,7 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/rubrics', rubricRoutes);
+app.use("/rubric-templates", rubricRoutes);
 
 // Home route - redirect to login or dashboard
 // app.get('/', (req, res) => {

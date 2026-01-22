@@ -48,12 +48,18 @@ export const rubricAPI = {
     const response = await api.get<GradingRubric[]>(`/api/rubrics/session/${sessionId}`);
     return response.data;
   },
-  
-  update: async (rubricId: number, data: { points: number; feedback: string }) => {
+  update: async (
+    rubricId: number,
+    data: {
+      q1Points?: number | null;
+      q2Points?: number | null;
+      q1Feedback?: string | null;
+      q2Feedback?: string | null;
+    }
+  ) => {
     const response = await api.put<GradingRubric>(`/api/rubrics/${rubricId}`, data);
     return response.data;
   },
-  
   getUserFeedback: async (userEmail: string) => {
     const response = await api.get<GradingRubric[]>(`/api/rubrics/user/${userEmail}/feedback`);
     return response.data;
