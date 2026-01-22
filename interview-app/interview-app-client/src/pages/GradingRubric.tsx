@@ -165,7 +165,10 @@ export default function GradingRubric() {
         </tbody>
       </table>
 
-      <button className="bg-black text-white px-4 py-2 cursor-pointer" onClick={submit}>
+      <button
+        className="bg-black text-white px-4 py-2 cursor-pointer rounded-lg"
+        onClick={submit}
+      >
         Submit rubric
       </button>
     </div>
