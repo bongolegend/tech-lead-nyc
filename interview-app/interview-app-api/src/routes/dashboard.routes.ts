@@ -46,6 +46,26 @@ router.get("/questions", async (req, res) => {
   res.json(meetup?.questions ?? []);
 });
 
+router.get("/questions/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    if (Number.isNaN(id)) {
+      return res.status(400).json({ error: "Invalid question id" });
+    }
+    const question = await prisma.interviewQuestion.findUnique({
+      where: { id },
+      include: { rubricTemplates: { orderBy: { orderIndex: "asc" } } },
+    });
+    if (!question) {
+      return res.status(404).json({ error: "Question not found" });
+    }
+    res.json(question);
+  } catch (e) {
+    console.error("Error fetching question:", e);
+    res.status(500).json({ error: "Failed to fetch question" });
+  }
+});
+
 
 // Dashboard page
 router.get('/', isAuthenticated, isProfileComplete, async (req, res) => {

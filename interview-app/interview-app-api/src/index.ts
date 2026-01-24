@@ -19,7 +19,6 @@ const PORT = process.env.PORT || 3001;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -31,7 +30,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // Session configuration
 app.use(
@@ -57,15 +55,6 @@ app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/rubrics', rubricRoutes);
 app.use("/rubric-templates", rubricRoutes);
-
-// Home route - redirect to login or dashboard
-// app.get('/', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     res.redirect('/dashboard');
-//   } else {
-//     res.redirect('/auth/login');
-//   }
-// });
 
 // Start server
 app.listen(PORT, () => {
