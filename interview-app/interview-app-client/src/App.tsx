@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import RequireAuth from "./components/RequireAuth";
 import Dashboard from "./pages/Dashboard";
 import GradingRubric from "./pages/GradingRubric";
+import QuestionRubric from "./pages/QuestionRubric";
 
 export default function App() {
   return (
@@ -33,6 +34,14 @@ export default function App() {
         element={
           <RequireAuth>
             <GradingRubric />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/questions/:questionId/rubric"
+        element={
+          <RequireAuth>
+            <QuestionRubric />
           </RequireAuth>
         }
       />

@@ -28,6 +28,7 @@ export interface User {
     category?: string | null;
     orderIndex: number;
     createdAt: string;
+    rubricTemplates?: RubricTemplate[];
   }
 
   export interface Match {
@@ -63,9 +64,14 @@ export interface User {
     id: number;
     criteria: string;
     maxPoints: number;
+    developing: string;
+    proficient: string;
+    exceptional: string;
     description?: string | null;
     orderIndex: number;
     createdAt: string;
+    questionId?: number | null;
+    category?: string | null;
   }
 
   export interface GradingRubric {

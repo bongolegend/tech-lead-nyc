@@ -15,6 +15,7 @@ type DraftState = {
 };
 
 const STORAGE_KEY = "rubric-draft";
+const ROUTING_URL = "http://localhost:5173";
 
 export default function GradingRubric() {
   const { sessionId } = useParams<{ sessionId?: string }>();
@@ -91,6 +92,10 @@ export default function GradingRubric() {
     alert("Rubric submitted");
   };
 
+  const handleBackNav = () => {
+    window.location.href = `${ROUTING_URL}/dashboard`;
+  };
+
   if (loading) return <div className="p-8">Loading…</div>;
 
   return (
@@ -164,13 +169,21 @@ export default function GradingRubric() {
           ))}
         </tbody>
       </table>
+      <div className="flex justify-between">
+        <button
+          className="bg-black text-white px-4 py-2 cursor-pointer rounded-lg"
+          onClick={handleBackNav}
+        >
+          &lt;&lt; Back to Questions
+        </button>
 
-      <button
-        className="bg-black text-white px-4 py-2 cursor-pointer rounded-lg"
-        onClick={submit}
-      >
-        Submit rubric
-      </button>
+        <button
+          className="bg-black text-white px-4 py-2 cursor-pointer rounded-lg"
+          onClick={submit}
+        >
+          Submit rubric
+        </button>
+      </div>
     </div>
   );
 }

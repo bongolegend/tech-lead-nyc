@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type InterviewQuestion = {
   id: number;
@@ -76,28 +77,31 @@ export default function Dashboard() {
 
               <div className="mt-2">
                 {group.questions.map((q, index) => (
-                  <div
+                  <Link
                     key={q.id}
-                    className={`px-4 py-3 ${
+                    to={`/questions/${q.id}/rubric`}
+                    className={`block px-4 py-3 hover:bg-gray-100 cursor-pointer ${
                       index !== group.questions.length - 1
                         ? "border-b border-black"
                         : ""
                     }`}
                   >
                     {q.questionText}
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
           ))
         )}
-        <button
-          className="max-w-45 bg-black text-white rounded-xl p-4 cursor-pointer"
-          type="button"
-          onClick={handleClickRubricButton}
-        >
-          Grading Rubric
-        </button>
+        <div className="flex justify-end">
+          <button
+            className="flex max-w-45 bg-black text-white rounded-xl p-4 cursor-pointer"
+            type="button"
+            onClick={handleClickRubricButton}
+          >
+            Grading Rubric &gt;&gt;
+          </button>
+        </div>
       </div>
     </div>
   );
