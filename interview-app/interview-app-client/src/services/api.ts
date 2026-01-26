@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { User, GradingRubric } from '../types/types';
 
-
-
 const API_URL = import.meta.env.API_URL || 'http://localhost:3000';
 
 const api = axios.create({
@@ -26,7 +24,9 @@ export const authAPI = {
 
 export const userAPI = {
   updateProfile: async (email: string, data: { professionalLevel: string; hasBeenHiringManager: boolean }) => {
-    const response = await api.put<User>(`/api/users/${email}/profile`, data);
+    const response = await api.put<User>(`/api/users/${email}/profile`, data, {
+      withCredentials: true,
+    });
     return response.data;
   },
   
