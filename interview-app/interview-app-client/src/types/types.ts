@@ -4,7 +4,7 @@ export interface User {
     email: Email;
     name?: string | null;
     googleId?: string | null;
-    professionalLevel?: 'professional' | 'student' | null;
+    professionalLevel?: 'Student' | 'Junior' | 'Mid-Level' | 'Senior' | null;
     hasBeenHiringManager?: boolean | null;
     profileCompleted: boolean;
     attendancePercentage: number;
