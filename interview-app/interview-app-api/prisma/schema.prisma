@@ -49,18 +49,18 @@ model MeetupEvent {
 }
 
 model InterviewQuestion {
-    id            Int      @id @default(autoincrement())
-    meetupEventId Int      @map("meetup_event_id")
-    questionText  String   @map("question_text") @db.Text
-    category      String?  @db.VarChar(100)
-    orderIndex    Int      @default(0) @map("order_index") // For displaying questions in order
-    createdAt     DateTime @default(now()) @map("created_at")
+  id            Int      @id @default(autoincrement())
+  meetupEventId Int      @map("meetup_event_id")
+  questionText  String   @map("question_text") @db.Text
+  category      String?  @db.VarChar(100)
+  orderIndex    Int      @default(0) @map("order_index")
+  createdAt     DateTime @default(now()) @map("created_at")
 
-    // Relations
-    meetupEvent     MeetupEvent     @relation(fields: [meetupEventId], references: [id], onDelete: Cascade)
-    rubricTemplates RubricTemplate[]
+  meetupEvent MeetupEvent @relation(fields: [meetupEventId], references: [id], onDelete: Cascade)
 
-    @@map("interview_questions")
+  rubricTemplates RubricTemplate[]
+
+  @@map("interview_questions")
 }
 
 model Match {
