@@ -21,3 +21,40 @@ build/
 
 # Prisma
 prisma/migrations/dev.db
+
+# Cursor
+.cursor/
+.cursor/**
+
+# OS / editor junk
+.DS_Store
+.Trash/
+.lesshst
+.node_repl_history
+
+# Local caches
+.cache/
+.cache/**
+.local/
+.local/**
+.config/
+.config/**
+.m2/
+.m2/**
+.mc/
+.mc/**
+.mongodb/
+.mongodb/**
+.mono/
+.mono/**
+.node-gyp/
+.node-gyp/**
+.npm-global/
+.npm-global/**
+
+# Node / Prisma artifacts
+**/node_modules/
+**/.prisma/
+
+# Secrets / local config
+**/apps**

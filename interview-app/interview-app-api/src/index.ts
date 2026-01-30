@@ -10,6 +10,7 @@ import './config/passport';
 import dashboardRoutes from './routes/dashboard.routes';
 import authRoutes from './routes/auth.routes';
 import rubricRoutes from './routes/rubric.routes';
+import usersRoutes from './routes/users.routes';
 
 
 const app = express();
@@ -55,6 +56,7 @@ app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/rubrics', rubricRoutes);
 app.use("/rubric-templates", rubricRoutes);
+app.use('/api/users', usersRoutes);
 
 // Start server
 app.listen(PORT, () => {
