@@ -1,0 +1,4 @@
+encryptionsalt: v1:GJAt2wYBmwI=:v1:ELHh5l1prsVMWcuy:QTWJTESzVAZuaxf+31MWGzKrpw9K3w==
+config:
+  gcp:project: tech-lead-nyc-dev
+  gcp:region: us-central1
