@@ -1,5 +1,5 @@
 {
-    "name": "tech-lead-nyc",
+    "name": "nyc-tech-lead-shared",
     "main": "index.ts",
     "devDependencies": {
         "@types/node": "^18",

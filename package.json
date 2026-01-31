@@ -1,0 +1,25 @@
+{
+  "name": "tech-lead-nyc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bongolegend/tech-lead-nyc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bongolegend/tech-lead-nyc/issues"
+  },
+  "homepage": "https://github.com/bongolegend/tech-lead-nyc#readme",
+  "dependencies": {
+    "@pulumi/docker": "^4.11.0",
+    "@pulumi/gcp": "^9.10.0",
+    "@pulumi/pulumi": "^3.218.0"
+  }
+}
