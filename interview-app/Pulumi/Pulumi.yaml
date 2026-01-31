@@ -1,5 +1,5 @@
-name: tech-lead-nyc
-description: Interview App
+name: nyc-tech-lead
+description: A minimal TypeScript Pulumi program
 runtime: nodejs
 config:
   pulumi:tags:
