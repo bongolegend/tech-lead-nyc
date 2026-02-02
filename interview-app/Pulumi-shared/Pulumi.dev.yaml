@@ -1,1 +1,5 @@
 encryptionsalt: v1:LJQ+Pg1lTRQ=:v1:u7TfihcHpWk3iYSY:OFYm8a7YQBdrF+O6hHFsyF5iwSugkA==
+config:
+  nyc-tech-lead-shared:gcp-project: tech-lead-nyc
+  nyc-tech-lead-shared:region: us-east1
+  gcp:project: tech-lead-nyc

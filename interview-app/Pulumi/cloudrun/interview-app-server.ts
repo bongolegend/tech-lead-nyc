@@ -25,7 +25,7 @@ export function createInterviewAppServer(
       template: {
         containers: [
           {
-            image: pulumi.interpolate`${registryUrl}/interview-app-server:latest`,
+            image: "us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-app-server:oauth",          
             ports: { containerPort: 8080 },
             envs: [
               { name: "DB_HOST", value: dbPublicIp },
@@ -33,7 +33,13 @@ export function createInterviewAppServer(
               { name: "DB_USER", value: dbUser },
               { name: "DB_PASSWORD", value: dbPassword },
               { name: "DB_NAME", value: "main" },
-            ],
+              {
+                name: "DATABASE_URL",
+                value: pulumi.interpolate`postgresql://${dbUser}:${dbPassword}@${dbPublicIp}:5432/main`,
+              },
+              { name: "GOOGLE_CLIENT_ID", value: "REMOVED_GOOGLE_CLIENT_ID" },
+              { name: "GOOGLE_CLIENT_SECRET", value: "REMOVED_GOOGLE_CLIENT_SECRET" },            
+            ],            
           },
         ],
         scaling: { minInstanceCount: 1, maxInstanceCount: 10 },
@@ -43,17 +49,17 @@ export function createInterviewAppServer(
     { dependsOn: [runApi, artifactregistryApi] }
   );
 
-  new gcp.cloudrunv2.ServiceIamMember(
-    "interview-app-server-public",
-    {
-      project: projectId,
-      location: region,
-      name: service.name,
-      role: "roles/run.invoker",
-      member: "allUsers",
-    },
-    { dependsOn: [service] }
-  );
+  // new gcp.cloudrunv2.ServiceIamMember(
+  //   "interview-app-server-public",
+  //   {
+  //     project: projectId,
+  //     location: region,
+  //     name: service.name,
+  //     role: "roles/run.invoker",
+  //     member: "allUsers",
+  //   },
+  //   { dependsOn: [service] }
+  // );
 
   return {
     service,

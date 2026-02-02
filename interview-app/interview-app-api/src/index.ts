@@ -6,15 +6,14 @@ import passport from 'passport';
 import path from 'path';
 import cors from "cors";
 
-import './config/passport';
-import dashboardRoutes from './routes/dashboard.routes';
-import authRoutes from './routes/auth.routes';
-import rubricRoutes from './routes/rubric.routes';
-import usersRoutes from './routes/users.routes';
-
+console.log("SERVER ENTRY STARTED");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 8080;
+
+app.get("/", (_req, res) => {
+  res.send("ok");
+});
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -46,19 +45,32 @@ app.use(
   })
 );
 
-
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
-app.use('/auth', authRoutes);
-app.use('/dashboard', dashboardRoutes);
-app.use('/rubrics', rubricRoutes);
-app.use("/rubric-templates", rubricRoutes);
-app.use('/api/users', usersRoutes);
+console.log("ABOUT TO LISTEN", PORT);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Frontend server running on http://localhost:${PORT}`);
+let initialized = false;
+
+app.listen(PORT, "0.0.0.0", async () => {
+  console.log(`Server running on port ${PORT}`);
+
+  if (!initialized) {
+    await import('./config/passport');
+
+    const dashboardRoutes = (await import('./routes/dashboard.routes')).default;
+    const authRoutes = (await import('./routes/auth.routes')).default;
+    const rubricRoutes = (await import('./routes/rubric.routes')).default;
+    const usersRoutes = (await import('./routes/users.routes')).default;
+
+    app.use('/auth', authRoutes);
+    app.use('/dashboard', dashboardRoutes);
+    app.use('/rubrics', rubricRoutes);
+    app.use("/rubric-templates", rubricRoutes);
+    app.use('/api/users', usersRoutes);
+
+    initialized = true;
+    console.log("Passport + routes initialized");
+  }
 });

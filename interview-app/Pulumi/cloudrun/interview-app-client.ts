@@ -19,8 +19,8 @@ export function createInterviewAppClient(
       template: {
         containers: [
           {
-            image: pulumi.interpolate`${registryUrl}/interview-app-client:latest`,
-            ports: { containerPort: 80 },
+            image: pulumi.interpolate`${registryUrl}/interview-client:latest`,
+            ports: { containerPort: 8080 },
           },
         ],
         scaling: { minInstanceCount: 1, maxInstanceCount: 10 },
@@ -29,17 +29,17 @@ export function createInterviewAppClient(
     { dependsOn: [runApi, artifactregistryApi] }
   );
 
-  new gcp.cloudrunv2.ServiceIamMember(
-    "interview-app-client-public",
-    {
-      project: projectId,
-      location: region,
-      name: service.name,
-      role: "roles/run.invoker",
-      member: "allUsers",
-    },
-    { dependsOn: [service] }
-  );
+  // new gcp.cloudrunv2.ServiceIamMember(
+  //   "interview-app-client-public",
+  //   {
+  //     project: projectId,
+  //     location: region,
+  //     name: service.name,
+  //     role: "roles/run.invoker",
+  //     member: "allUsers",
+  //   },
+  //   { dependsOn: [service] }
+  // );
 
   return {
     service,

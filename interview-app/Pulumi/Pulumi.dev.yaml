@@ -1,0 +1,8 @@
+encryptionsalt: v1:Rtp+3WJLU2g=:v1:8bdysaVGYGfl+y0K:tMvkuWW+fN7N8VpLRSTT6q8HNCuSwQ==
+config:
+  nyc-tech-lead:db-password:
+    secure: v1:y4M9ctuWUkUppml/:1D6V/fHJPqyJJY+O2ArG74Lrniq71tv/mFlAIA==
+  nyc-tech-lead:environment: dev
+  nyc-tech-lead:region: us-east1
+  nyc-tech-lead:gcp-project: tech-lead-nyc
+  nyc-tech-lead:db-user: appuser

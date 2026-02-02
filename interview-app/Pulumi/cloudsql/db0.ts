@@ -6,7 +6,8 @@ export function createCloudSqlInstance(
   region: pulumi.Input<string>
 ) {
   const config = new pulumi.Config();
-  const dbUser = config.requireSecret("db-user");
+
+  const dbUser = "appuser";
   const dbPassword = config.requireSecret("db-password");
 
   const instance = new gcp.sql.DatabaseInstance("db0", {
@@ -15,9 +16,11 @@ export function createCloudSqlInstance(
     region,
     databaseVersion: "POSTGRES_16",
     settings: {
-      tier: "db-g1-small",
+      tier: "db-perf-optimized-N-2",
+      edition: "ENTERPRISE_PLUS",
       ipConfiguration: { ipv4Enabled: true },
-    },
+      deletionProtectionEnabled: true,
+    },    
   });
 
   new gcp.sql.User("db0-user", {
@@ -37,5 +40,6 @@ export function createCloudSqlInstance(
     instance,
     connectionName: instance.connectionName,
     publicIp: instance.publicIpAddress,
+    dbUser,
   };
 }
