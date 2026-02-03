@@ -26,7 +26,7 @@ export function createInterviewAppServer(
         containers: [
           {
             image: "us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-app-server:oauth",          
-            ports: { containerPort: 8080 },
+            ports: { containerPort: 80 },
             envs: [
               { name: "DB_HOST", value: dbPublicIp },
               { name: "DB_PORT", value: "5432" },
