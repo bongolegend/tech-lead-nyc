@@ -19,8 +19,8 @@ export function createInterviewAppClient(
       template: {
         containers: [
           {
-            image: pulumi.interpolate`${registryUrl}/interview-client:latest`,
-            ports: { containerPort: 8080 },
+            image: pulumi.interpolate`${registryUrl}/interview-client@sha256:ba06cc6973207194a324eb3c896e62637af1fa0b1aadb3f4a401fce49fd4a25d`,
+            ports: { containerPort: 80 },
           },
         ],
         scaling: { minInstanceCount: 1, maxInstanceCount: 10 },

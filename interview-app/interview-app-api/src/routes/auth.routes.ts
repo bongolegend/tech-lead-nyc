@@ -3,6 +3,9 @@ import passport from 'passport';
 
 const router = Router();
 
+const FRONTEND_URL = process.env.FRONTEND_URL!;
+
+
 // // Login page
 // router.get('/login', (req, res) => {
 //   if (req.isAuthenticated()) {
@@ -26,7 +29,7 @@ router.get(
   (req, res, next) => {
     req.logIn(req.user!, (err) => {
       if (err) return next(err);
-      res.redirect('http://localhost:5173/dashboard');
+      res.redirect(`${FRONTEND_URL}/dashboard`);
     });
   }
 );
@@ -36,7 +39,7 @@ router.get(
 router.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
-      res.redirect('http://localhost:5173/dashboard');
+      res.redirect(`${FRONTEND_URL}/dashboard`);
     }
     res.redirect('/auth/login');
   });

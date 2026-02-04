@@ -21,7 +21,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    // origin: "http://localhost:5173",
+    origin: "https://interview-app-client-z6tjwkruwq-ue.a.run.app",
     credentials: true,
   })
 );
@@ -32,18 +33,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session configuration
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your-secret-key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
+app.set('trust proxy', 1);
+
+app.use(session({
+  name: 'sid',
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'none',
+  },
+}));
+
 
 // Passport middleware
 app.use(passport.initialize());

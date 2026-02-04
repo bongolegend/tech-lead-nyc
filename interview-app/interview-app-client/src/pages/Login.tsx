@@ -2,11 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { authAPI } from "../services/api";
 
-const API_URL = import.meta.env.API_URL || "http://localhost:3000";
+// const API_URL = import.meta.env.API_URL || "http://localhost:3000";
+const AUTH_URL = "https://interview-app-server-831130136724.us-east1.run.app";
 
 export default function Login() {
   const handleLogin = () => {
-    window.location.href = `${API_URL}/auth/google`;
+    // window.location.href = `${API_URL}/auth/google`;
+    window.location.href = `${AUTH_URL}/auth/google`;
   };
 
   return (

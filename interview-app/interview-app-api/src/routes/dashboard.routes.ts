@@ -5,12 +5,13 @@ import prisma from '../db/client';
 
 const router = Router();
 const API_URL = process.env.API_URL || 'http://localhost:3000';
+const FRONTEND_URL = process.env.FRONTEND_URL!;
 
 // Onboarding page
 router.get('/onboarding', isAuthenticated, (req, res) => {
   const user = req.user as any;
   if (user.profileCompleted) {
-    return res.redirect('http://localhost:5173/dashboard');
+    res.redirect(`${FRONTEND_URL}/dashboard`);
   }
   res.render('onboarding', { title: 'Complete Your Profile', user });
 });
@@ -25,7 +26,7 @@ router.post('/onboarding', isAuthenticated, async (req, res) => {
       professionalLevel,
       hasBeenHiringManager: hasBeenHiringManager === 'true',
     });
-    res.redirect('http://localhost:5173/dashboard');
+    res.redirect(`${FRONTEND_URL}/dashboard`);
   } catch (error) {
     console.error('Error updating profile:', error);
     res.redirect('/dashboard/onboarding');
