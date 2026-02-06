@@ -11,7 +11,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // const API_URL = import.meta.env.API_URL || "http://localhost:3000";
-const API_URL = "";
+const API_URL = "https://interview-app-server-831130136724.us-east1.run.app";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -20,17 +20,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!window.location.pathname.startsWith("/dashboard")) return;
+  
     fetch(`${API_URL}/auth/me`, { credentials: "include" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setUser(null);
-        setLoading(false);
-      });
+      .then(res => res.ok ? res.json() : null)
+      .then(setUser)
+      .finally(() => setLoading(false));
   }, []);
+  
 
   const logout = async () => {
     await fetch(`${API_URL}/auth/logout`, {

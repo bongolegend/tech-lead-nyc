@@ -35,7 +35,6 @@ const serverResources = createInterviewAppServer(
   runApi,
   artifactregistryApi,
   cloudSqlResources.connectionName,
-  cloudSqlResources.publicIp
 );
 
 // Client SECOND

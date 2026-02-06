@@ -1,10 +1,12 @@
 import 'dotenv/config';
 
+import connectPgSimple from 'connect-pg-simple';
+import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import path from 'path';
-import cors from "cors";
+import { Pool } from 'pg';
 
 console.log("SERVER ENTRY STARTED");
 
@@ -32,48 +34,77 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session configuration
+// Session configuration (Postgres store so sessions persist across Cloud Run instances)
 app.set('trust proxy', 1);
 
-app.use(session({
-  name: 'sid',
-  secret: process.env.SESSION_SECRET!,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    sameSite: 'none',
-  },
-}));
+const pgPool = new Pool({ connectionString: process.env.DATABASE_URL });
+const PgSession = connectPgSimple(session);
+
+app.use(
+  session({
+    store: new PgSession({
+      pool: pgPool,
+      createTableIfMissing: true,
+    }),
+    name: 'sid',
+    secret: process.env.SESSION_SECRET!,
+    resave: false,
+    saveUninitialized: false,
+    proxy: true,
+    cookie: {
+      secure: 'auto',
+      httpOnly: true,
+      sameSite: 'none',
+    },
+  })
+);
+
 
 
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log("ABOUT TO LISTEN", PORT);
+// Startup env validation
+const requiredEnv = [
+  'SESSION_SECRET',
+  'GOOGLE_CLIENT_ID',
+  'GOOGLE_CLIENT_SECRET',
+  'GOOGLE_CALLBACK_URL',
+  'FRONTEND_URL',
+];
+const missingEnv = requiredEnv.filter((k) => !process.env[k]);
+if (missingEnv.length > 0) {
+  console.error('Missing required env:', missingEnv.join(', '));
+  process.exit(1);
+}
 
-let initialized = false;
+(async () => {
+  await import('./config/passport');
 
-app.listen(PORT, "0.0.0.0", async () => {
-  console.log(`Server running on port ${PORT}`);
+  const dashboardRoutes = (await import('./routes/dashboard.routes')).default;
+  const authRoutes = (await import('./routes/auth.routes')).default;
+  const rubricRoutes = (await import('./routes/rubric.routes')).default;
+  const usersRoutes = (await import('./routes/users.routes')).default;
 
-  if (!initialized) {
-    await import('./config/passport');
+  app.use('/auth', authRoutes);
+  app.use('/dashboard', dashboardRoutes);
+  app.use('/rubrics', rubricRoutes);
+  app.use('/rubric-templates', rubricRoutes);
+  app.use('/api/users', usersRoutes);
 
-    const dashboardRoutes = (await import('./routes/dashboard.routes')).default;
-    const authRoutes = (await import('./routes/auth.routes')).default;
-    const rubricRoutes = (await import('./routes/rubric.routes')).default;
-    const usersRoutes = (await import('./routes/users.routes')).default;
+  // Global error handler (must be after routes)
+  app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error(err);
+    const isProduction = process.env.NODE_ENV === 'production';
+    res.status(500).json({
+      error: 'Internal Server Error',
+      ...(!isProduction && { details: err.message, stack: err.stack }),
+    });
+  });
 
-    app.use('/auth', authRoutes);
-    app.use('/dashboard', dashboardRoutes);
-    app.use('/rubrics', rubricRoutes);
-    app.use("/rubric-templates", rubricRoutes);
-    app.use('/api/users', usersRoutes);
-
-    initialized = true;
-    console.log("Passport + routes initialized");
-  }
-});
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log('Passport + routes initialized');
+  });
+})();

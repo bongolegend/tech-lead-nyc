@@ -22,14 +22,17 @@ router.get(
   })
 );
 
-// Google OAuth callback
+// Google OAuth callback (save session to Postgres before redirect so /auth/me sees it)
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/login' }),
   (req, res, next) => {
     req.logIn(req.user!, (err) => {
       if (err) return next(err);
-      res.redirect(`${FRONTEND_URL}/dashboard`);
+      req.session.save((saveErr) => {
+        if (saveErr) return next(saveErr);
+        res.redirect(`${FRONTEND_URL}/dashboard`);
+      });
     });
   }
 );

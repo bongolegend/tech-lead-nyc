@@ -10,3 +10,7 @@ config:
     secure: v1:G1X6hqrDzsC0bR3J:lJFecG3aNrgkt10ImXZcSG70eL+bkAR7XKBAA9P+wd82nSosWYMAJJM2GQ9NytwDC3oM4+V+7/tqj5IaYmpMHCcV8/+KS9t8AkZ9L06bxRU0wFkyZ2XXBw==
   nyc-tech-lead:google-client-secret:
     secure: v1:D3bhcNK5K5c839Ah:jz3Xd+6+iXVy+tfQy9cxzPtOZZsbzeR3v4HTmb0wtawx/Mk/07x9fxoftL0OJJ+KohdE
+  nyc-tech-lead:session-secret:
+    secure: v1:HN4kifnomsIC6sNJ:Ikdsvh3lxWVpWL6mlun/h9AvWJT8SYObt/pN2Vear/TFEvsiMD/SKtNlrQnX4Fvi
+  nyc-tech-lead:server-image-tag: latest
+  nyc-tech-lead:client-image-tag: latest

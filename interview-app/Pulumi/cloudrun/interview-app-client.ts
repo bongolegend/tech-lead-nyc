@@ -7,7 +7,11 @@ export function createInterviewAppClient(
   runApi: gcp.projects.Service,
   artifactregistryApi: gcp.projects.Service
 ) {
+  const config = new pulumi.Config();
+  const clientImageTag = config.get("client-image-tag") || "latest";
   const registryUrl = pulumi.interpolate`${region}-docker.pkg.dev/${projectId}/registry0-shared`;
+  const clientImage = pulumi.interpolate`${registryUrl}/interview-client:${clientImageTag}`;
+  const revisionHint = String(Date.now());
 
   const service = new gcp.cloudrunv2.Service(
     "interview-app-client",
@@ -16,10 +20,11 @@ export function createInterviewAppClient(
       project: projectId,
       location: region,
       ingress: "INGRESS_TRAFFIC_ALL",
+      labels: { "pulumi-revision": revisionHint },
       template: {
         containers: [
           {
-            image: pulumi.interpolate`${registryUrl}/interview-client@sha256:ba06cc6973207194a324eb3c896e62637af1fa0b1aadb3f4a401fce49fd4a25d`,
+            image: clientImage,
             ports: { containerPort: 80 },
           },
         ],

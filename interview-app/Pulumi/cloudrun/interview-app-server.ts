@@ -18,7 +18,16 @@ export function createInterviewAppServer(
   const googleClientId = config.requireSecret("google-client-id");
   const googleClientSecret = config.requireSecret("google-client-secret");
 
+  const sessionSecret = config.requireSecret("session-secret");
+
+  // Image tag from config so you can deploy a new build: build & push, then
+  // pulumi config set server-image-tag <tag> (e.g. latest or a digest) and pulumi up
+  const serverImageTag = config.get("server-image-tag") || "latest";
   const registryUrl = pulumi.interpolate`${region}-docker.pkg.dev/${projectId}/registry0-shared`;
+  const serverImage = pulumi.interpolate`${registryUrl}/interview-server:${serverImageTag}`;
+
+  // Changing label forces a new revision so Cloud Run pulls the image (e.g. current :latest)
+  const revisionHint = String(Date.now());
 
   const service = new gcp.cloudrunv2.Service(
     "interview-app-server",
@@ -27,11 +36,12 @@ export function createInterviewAppServer(
       project: projectId,
       location: region,
       ingress: "INGRESS_TRAFFIC_ALL",
+      labels: { "pulumi-revision": revisionHint },
 
       template: {
         containers: [
           {
-            image: pulumi.interpolate`${registryUrl}/interview-server@sha256:9d4e97ca1f655b7440d651cc6368fa60a38d3e685ef00652bcc28c78034899cf`,
+            image: serverImage,
             ports: { containerPort: 8080 },
 
             envs: [
@@ -62,6 +72,8 @@ export function createInterviewAppServer(
                 value:
                   "https://interview-app-client-z6tjwkruwq-ue.a.run.app",
               },
+
+              { name: "SESSION_SECRET", value: sessionSecret },
             ],
 
             volumeMounts: [
