@@ -4,7 +4,9 @@ import { isAuthenticated, isProfileComplete } from '../middleware/auth';
 import prisma from '../db/client';
 
 const router = Router();
-const API_URL = process.env.API_URL || 'http://localhost:3000';
+// const API_URL = process.env.API_URL || 'http://localhost:3000';
+const API_URL = "https://interview-app-client-z6tjwkruwq-ue.a.run.app";
+
 const FRONTEND_URL = process.env.FRONTEND_URL!;
 
 // Onboarding page

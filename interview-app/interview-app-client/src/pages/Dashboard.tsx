@@ -10,6 +10,7 @@ type InterviewQuestion = {
 };
 
 const CATEGORY_ORDER = ["behavioral", "systems-design", "coding"];
+const AUTH_URL = "https://interview-app-server-831130136724.us-east1.run.app";
 
 export default function Dashboard() {
   const { user, setUser } = useAuth();
@@ -28,7 +29,7 @@ export default function Dashboard() {
 
     const start = Date.now();
 
-    fetch("http://localhost:3000/dashboard/questions", {
+    fetch(`${AUTH_URL}/dashboard/questions`, {
       credentials: "include",
     })
       .then((res) => res.json())
