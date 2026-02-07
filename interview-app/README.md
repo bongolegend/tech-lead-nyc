@@ -237,3 +237,48 @@ npm run cli -- list-questions --category behavioral
 - CLI uses Prisma directly and disconnects after each command
 
 ---
+
+## Pushing to pulumi
+
+### Client 
+
+Note: pulumi bushes both frontend and backend images to cloud
+
+```bash
+cd interview-app/interview-app-client
+
+docker build --no-cache \
+  -t us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-client:latest \
+  -f Dockerfile \
+  .
+
+docker push us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-client:latest
+
+cd pulumi
+
+pulumi up
+```
+
+### Server 
+```bash
+cd interview-app/interview-app-api
+
+docker build --no-cache \
+  -t us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-server:latest \
+  -f Dockerfile \
+  .
+
+docker push us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-server:latest
+
+cd pulumi
+
+pulumi up
+```
+
+## Connecting to DB proxy:
+
+5423 or 5433 (if 5432 is in use)
+
+```bash
+cloud-sql-proxy tech-lead-nyc:us-east1:db0 --port <PORT>
+```
