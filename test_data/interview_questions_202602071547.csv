@@ -1,0 +1,11 @@
+"id","meetup_event_id","question_text","category","order_index","created_at"
+1,1,"Design a URL shortening service like bit.ly. Walk through system architecture, data model, scaling, and tradeoffs.",systems-design,1,2026-01-21 01:10:01.936
+2,1,Tell me about a time you disagreed with a technical decision. How did you handle it and what was the outcome?,behavioral,2,2026-01-21 01:10:08.373
+3,1,"Given an array of integers, return the indices of two numbers such that they add up to a specific target.",coding,3,2026-01-21 01:10:14.618
+4,1,"Design a real-time chat system. Discuss message delivery guarantees, online presence, and scalability.",systems-design,4,2026-01-21 02:04:30.231
+5,1,Design a rate limiting system for a public API. How would you handle burst traffic and fairness?,systems-design,5,2026-01-21 02:04:34.362
+6,1,Tell me about a time you had to give difficult feedback to a teammate. What was the result?,behavioral,6,2026-01-21 02:04:38.270
+7,1,Describe a project that went off track. What signals did you miss and what did you learn?,behavioral,7,2026-01-21 02:04:40.604
+8,1,"Given a string, determine if it is a valid palindrome, considering only alphanumeric characters.",coding,8,2026-01-21 02:04:45.198
+9,1,Merge two sorted linked lists and return the merged list.,coding,9,2026-01-21 02:04:48.292
+10,1,"Given a stream of events with timestamps, how would you design a system to count unique users in the last 5 minutes efficiently?",coding,3,2026-01-23 21:42:56.462

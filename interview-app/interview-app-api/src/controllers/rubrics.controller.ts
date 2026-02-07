@@ -1,5 +1,15 @@
 import { Request, Response } from "express";
+import { Prisma } from "@prisma/client";
 import prisma from "../db/client";
+
+function foreignKeyConstraintMessage(fieldName: string | undefined): string | null {
+  if (!fieldName || typeof fieldName !== "string") return null;
+  if (fieldName.includes("intervieweeEmail"))
+    return "Interviewee Email must be a registered user to submit a rubric";
+  if (fieldName.includes("interviewerEmail"))
+    return "Interviewer Email must be a registered user to submit a rubric";
+  return null;
+}
 
 /* ---------- templates ---------- */
 export const listRubricTemplates = async (_req: Request, res: Response) => {
@@ -37,6 +47,12 @@ export const createRubric = async (req: Request, res: Response) => {
 
     res.status(201).json(rubric);
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
+      const message = foreignKeyConstraintMessage(error.meta?.field_name as string | undefined);
+      if (message) {
+        return res.status(400).json({ error: message });
+      }
+    }
     console.error("Error creating rubric:", error);
     res.status(500).json({ error: "Failed to create rubric" });
   }

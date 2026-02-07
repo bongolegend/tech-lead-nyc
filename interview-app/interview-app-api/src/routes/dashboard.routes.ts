@@ -4,9 +4,7 @@ import { isAuthenticated, isProfileComplete } from '../middleware/auth';
 import prisma from '../db/client';
 
 const router = Router();
-// const API_URL = process.env.API_URL || 'http://localhost:3000';
-const API_URL = "https://interview-app-client-z6tjwkruwq-ue.a.run.app";
-
+const API_URL = process.env.API_URL!;
 const FRONTEND_URL = process.env.FRONTEND_URL!;
 
 // Onboarding page
@@ -35,20 +33,21 @@ router.post('/onboarding', isAuthenticated, async (req, res) => {
   }
 });
 
-
-router.get("/questions", async (req, res) => {
-  const meetup = await prisma.meetupEvent.findFirst({
-    orderBy: { sessionDate: "asc" },
-    include: {
-      questions: {
-        orderBy: { orderIndex: "asc" },
-      },
-    },
+// Same list for all users: all questions from all meetups, ordered by meetup date then order.
+router.get("/questions", async (_req, res) => {
+  const questions = await prisma.interviewQuestion.findMany({
+    include: { meetupEvent: { select: { sessionDate: true } } },
+    orderBy: { orderIndex: "asc" },
   });
-
-  res.json(meetup?.questions ?? []);
+  const sorted = [...questions].sort(
+    (a, b) =>
+      a.meetupEvent.sessionDate.getTime() - b.meetupEvent.sessionDate.getTime() ||
+      a.orderIndex - b.orderIndex
+  );
+  res.json(sorted.map(({ meetupEvent: _m, ...q }) => q));
 });
 
+// Same question + rubric templates for all users (no user filtering).
 router.get("/questions/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
@@ -62,7 +61,15 @@ router.get("/questions/:id", async (req, res) => {
     if (!question) {
       return res.status(404).json({ error: "Question not found" });
     }
-    res.json(question);
+    // If this question has no templates, include global templates (questionId null) so all users see rubrics
+    const rubricTemplates =
+      question.rubricTemplates.length > 0
+        ? question.rubricTemplates
+        : await prisma.rubricTemplate.findMany({
+            where: { questionId: null },
+            orderBy: { orderIndex: "asc" },
+          });
+    res.json({ ...question, rubricTemplates });
   } catch (e) {
     console.error("Error fetching question:", e);
     res.status(500).json({ error: "Failed to fetch question" });

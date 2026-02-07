@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { userAPI } from "../services/api";
+import { API_URL } from "../config/env";
 
 type InterviewQuestion = {
   id: number;
@@ -10,10 +11,15 @@ type InterviewQuestion = {
 };
 
 const CATEGORY_ORDER = ["behavioral", "systems-design", "coding"];
-const AUTH_URL = "https://interview-app-server-831130136724.us-east1.run.app";
 
 export default function Dashboard() {
-  const { user, setUser } = useAuth();
+  const { user, setUser, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await logout();
+    navigate("/", { replace: true });
+  };
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -29,7 +35,7 @@ export default function Dashboard() {
 
     const start = Date.now();
 
-    fetch(`${AUTH_URL}/dashboard/questions`, {
+    fetch(`${API_URL}/dashboard/questions`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -81,6 +87,15 @@ export default function Dashboard() {
 
   return (
     <div className="p-8">
+      <div className="flex justify-end mb-6">
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="text-gray-600 hover:text-black underline cursor-pointer"
+        >
+          Sign out
+        </button>
+      </div>
       {user && !user.profileCompleted && (
         <div className="p-8 max-w-2xl mx-auto mb-8">
           <h1 className="text-2xl font-bold mb-6">Complete Your Profile</h1>

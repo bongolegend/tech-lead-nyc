@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User } from "../types/types";
-import axios from "axios";
+import { API_URL } from "../config/env";
 
 interface AuthContextType {
   user: User | null;
@@ -10,8 +10,6 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-// const API_URL = import.meta.env.API_URL || "http://localhost:3000";
-const API_URL = "https://interview-app-server-831130136724.us-east1.run.app";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

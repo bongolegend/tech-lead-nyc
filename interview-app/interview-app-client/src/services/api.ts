@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { User, GradingRubric } from '../types/types';
-
-// const API_URL = import.meta.env.API_URL || 'http://localhost:3000';
-const API_URL = "https://interview-app-server-831130136724.us-east1.run.app";
+import { API_URL } from '../config/env';
 
 const api = axios.create({
   baseURL: API_URL,

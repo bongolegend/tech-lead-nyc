@@ -12,6 +12,7 @@ console.log("SERVER ENTRY STARTED");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 8080;
+const isProd = process.env.NODE_ENV === 'production';
 
 app.get("/", (_req, res) => {
   res.send("ok");
@@ -23,8 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(
   cors({
-    // origin: "http://localhost:5173",
-    origin: "https://interview-app-client-z6tjwkruwq-ue.a.run.app",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -52,9 +52,9 @@ app.use(
     saveUninitialized: false,
     proxy: true,
     cookie: {
-      secure: 'auto',
       httpOnly: true,
-      sameSite: 'none',
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
     },
   })
 );
@@ -72,6 +72,7 @@ const requiredEnv = [
   'GOOGLE_CLIENT_SECRET',
   'GOOGLE_CALLBACK_URL',
   'FRONTEND_URL',
+  'API_URL',
 ];
 const missingEnv = requiredEnv.filter((k) => !process.env[k]);
 if (missingEnv.length > 0) {

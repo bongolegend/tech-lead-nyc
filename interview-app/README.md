@@ -37,6 +37,7 @@ GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
 GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback
 FRONTEND_URL="http://localhost:5173"
+API_URL="http://localhost:3000"
 ```
 
 Replace:
@@ -49,11 +50,19 @@ Replace:
 
 ### Frontend (`interview-app-client`)
 
-Create a `.env` file in `interview-app-client`:
+Create a `.env` file in `interview-app-client` (see `.env.example`):
 
 ```env
-API_URL="http://localhost:3000"
+# local = API at http://localhost:3000   prod = production Cloud Run API
+VITE_ENV=local
 ```
+
+To point the client at production instead of local, set `VITE_ENV=prod`. No code changes needed.
+
+### Switching between local and production
+
+- **Client**: In `interview-app-client/.env`, set `VITE_ENV=local` or `VITE_ENV=prod`. Restart the dev server after changing.
+- **API**: In `interview-app-api/.env`, set `FRONTEND_URL` and `API_URL` to either local (`http://localhost:5173`, `http://localhost:3000`) or production (Cloud Run client and server URLs). Production values are set by Pulumi when deploying.
 
 ---
 

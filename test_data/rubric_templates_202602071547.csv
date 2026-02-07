@@ -1,0 +1,189 @@
+"id","criteria","max_points","description","order_index","created_at","developing","exceptional","proficient","question_id","category"
+16,Technical Maturity (Trade-offs),5,,5,2026-01-24 20:07:09.323,"Presents one ""perfect"" solution; relies on buzzwords.","Applies CAP Theorem; uses ""Back-of-the-envelope"" math to justify choices.
+
+","Acknowledges trade-offs (e.g., Latency vs. Consistency).",4,systems-design
+17,Scale & Specialize (Deep Dive),5,,4,2026-01-24 20:07:09.323,Design fails under load; cannot explain sharding or replication.,"Proactively addresses ""Hot Keys,"" Single Points of Failure, and Data Consistency.
+
+",Identifies bottlenecks; suggests horizontal scaling and CDNs.,4,systems-design
+18,Prototype (High-Level),5,,3,2026-01-24 20:07:09.323,"Missing core components (LB, Cache); data flow is broken.","Justifies component selection; explains how data moves through every layer.
+
+","Complete ""End-to-End"" flow; logical placement of services and DB.",4,systems-design
+19,API & Data (The Contract),5,,2,2026-01-24 20:07:09.323,No clear endpoints; schema is missing or lacks structure.,Designs extensible APIs; justifies data model based on read/write patterns.,Designs functional APIs; chooses SQL vs NoSQL with basic reasoning.,4,systems-design
+1,Structure (STAR),5,,1,2026-01-22 16:16:45.171,Answer was disorganized; hard to follow the timeline.,"Mastered the ""Beat"": Brief setup, deep ""Action,"" and clear result.",Followed STAR clearly; easy to understand the context.,2,behavioral
+2,Action,5,,2,2026-01-22 16:16:51.508,"Spoke mostly about what ""the team"" did; vague on personal role.",Explained why they took specific actions and the trade-offs involved.,Clearly defined their specific contributions and steps.,2,behavioral
+3,Impact,5,,3,2026-01-22 16:16:56.083,Outcome was vague or missing.,Quantified results with data ($ or %) and linked it to business goals.,"Provided a clear result (e.g., ""launched on time,"" ""fixed the bug"").",2,behavioral
+4,Growth,5,,4,2026-01-22 16:17:02.575,No mention of lessons learned or future improvements.,Demonstrated deep self-awareness and how it changed their current habits.,Mentioned one thing they learned from the experience.,2,behavioral
+5,Communication,5,,5,2026-01-22 16:17:08.217,Rambled; used too much jargon; low energy.,Engaging storyteller; handled follow-up questions with ease.,Concise; professional tone; easy to follow.,2,behavioral
+6,Clarify (Scope/Constraints),5,,1,2026-01-24 19:52:21.342,Starts drawing immediately; misses scale or latency goals.,"Uncovers ""hidden"" edge cases and defines clear Non-Functional Requirements.",Defines core features and basic scale (DAU/QPS).,1,systems-design
+7,API & Data (The Contract),5,,2,2026-01-24 19:52:21.351,No clear endpoints; schema is missing or lacks structure.,Designs extensible APIs; justifies data model based on read/write patterns.,Designs functional APIs; chooses SQL vs NoSQL with basic reasoning.,1,systems-design
+8,Prototype (High-Level),5,,3,2026-01-24 19:52:21.353,"Missing core components (LB, Cache); data flow is broken.","Justifies component selection; explains how data moves through every layer.
+
+","Complete ""End-to-End"" flow; logical placement of services and DB.",1,systems-design
+9,Scale & Specialize (Deep Dive),5,,4,2026-01-24 19:52:21.355,Design fails under load; cannot explain sharding or replication.,"Proactively addresses ""Hot Keys,"" Single Points of Failure, and Data Consistency.
+
+",Identifies bottlenecks; suggests horizontal scaling and CDNs.,1,systems-design
+10,Technical Maturity (Trade-offs),5,,5,2026-01-24 19:52:21.356,"Presents one ""perfect"" solution; relies on buzzwords.","Applies CAP Theorem; uses ""Back-of-the-envelope"" math to justify choices.
+
+","Acknowledges trade-offs (e.g., Latency vs. Consistency).",1,systems-design
+11,"Clarification
+
+",5,,1,2026-01-24 19:52:21.358,"Starts coding immediately; misses edge cases (empty, null, negatives).","Defines constraints and identifies tricky edge cases before touching the keyboard.
+
+","Asks 1-2 clarifying questions about inputs/outputs.
+
+",3,coding
+12,Match & Plan,5,,2,2026-01-24 19:52:21.359,"Logic is ""trial and error""; jumps into code without a clear strategy.
+
+","Explains the chosen algorithm vs. alternatives; gets interviewer ""buy-in"" on the plan.
+
+","Matches problem to a pattern (e.g., Two Pointers); writes high-level pseudocode.
+
+",3,coding
+13,Implement,5,,3,2026-01-24 19:52:21.360,"Syntax errors; poor variable names; code is one giant, messy block.
+
+","Writes clean, modular code; handles edge cases gracefully; avoids ""spaghetti"" logic.
+
+","Writes working, readable code; uses standard naming conventions.
+
+",3,coding
+14,Testing,5,,4,2026-01-24 19:52:21.362,"Says ""I'm done"" without checking; relies on the interviewer to find bugs.
+
+","Conducts a rigorous ""Dry Run"" with edge cases; catches and fixes bugs independently.
+
+","Manually walks through a simple test case to verify logic.
+
+",3,coding
+15,Evaluate (Complexity),5,,5,2026-01-24 19:52:21.365,"Cannot explain Big O or gives incorrect complexity analysis.
+
+","Explains the O(n) trade-offs and suggests potential optimizations for space or time.
+
+","Correctly identifies Time and Space complexity (e.g., $O(n)$).
+
+",3,coding
+20,Clarify (Scope/Constraints),5,,1,2026-01-24 20:07:09.323,Starts drawing immediately; misses scale or latency goals.,"Uncovers ""hidden"" edge cases and defines clear Non-Functional Requirements.",Defines core features and basic scale (DAU/QPS).,4,systems-design
+21,Technical Maturity (Trade-offs),5,,5,2026-01-24 20:07:09.323,"Presents one ""perfect"" solution; relies on buzzwords.","Applies CAP Theorem; uses ""Back-of-the-envelope"" math to justify choices.
+
+","Acknowledges trade-offs (e.g., Latency vs. Consistency).",5,systems-design
+22,Scale & Specialize (Deep Dive),5,,4,2026-01-24 20:07:09.323,Design fails under load; cannot explain sharding or replication.,"Proactively addresses ""Hot Keys,"" Single Points of Failure, and Data Consistency.
+
+",Identifies bottlenecks; suggests horizontal scaling and CDNs.,5,systems-design
+23,Prototype (High-Level),5,,3,2026-01-24 20:07:09.323,"Missing core components (LB, Cache); data flow is broken.","Justifies component selection; explains how data moves through every layer.
+
+","Complete ""End-to-End"" flow; logical placement of services and DB.",5,systems-design
+24,API & Data (The Contract),5,,2,2026-01-24 20:07:09.323,No clear endpoints; schema is missing or lacks structure.,Designs extensible APIs; justifies data model based on read/write patterns.,Designs functional APIs; chooses SQL vs NoSQL with basic reasoning.,5,systems-design
+25,Clarify (Scope/Constraints),5,,1,2026-01-24 20:07:09.323,Starts drawing immediately; misses scale or latency goals.,"Uncovers ""hidden"" edge cases and defines clear Non-Functional Requirements.",Defines core features and basic scale (DAU/QPS).,5,systems-design
+26,Communication,5,,5,2026-01-24 20:07:09.323,Rambled; used too much jargon; low energy.,Engaging storyteller; handled follow-up questions with ease.,Concise; professional tone; easy to follow.,6,behavioral
+27,Growth,5,,4,2026-01-24 20:07:09.323,No mention of lessons learned or future improvements.,Demonstrated deep self-awareness and how it changed their current habits.,Mentioned one thing they learned from the experience.,6,behavioral
+28,Impact,5,,3,2026-01-24 20:07:09.323,Outcome was vague or missing.,Quantified results with data ($ or %) and linked it to business goals.,"Provided a clear result (e.g., ""launched on time,"" ""fixed the bug"").",6,behavioral
+29,Action,5,,2,2026-01-24 20:07:09.323,"Spoke mostly about what ""the team"" did; vague on personal role.",Explained why they took specific actions and the trade-offs involved.,Clearly defined their specific contributions and steps.,6,behavioral
+30,Structure (STAR),5,,1,2026-01-24 20:07:09.323,Answer was disorganized; hard to follow the timeline.,"Mastered the ""Beat"": Brief setup, deep ""Action,"" and clear result.",Followed STAR clearly; easy to understand the context.,6,behavioral
+31,Communication,5,,5,2026-01-24 20:07:09.323,Rambled; used too much jargon; low energy.,Engaging storyteller; handled follow-up questions with ease.,Concise; professional tone; easy to follow.,7,behavioral
+32,Growth,5,,4,2026-01-24 20:07:09.323,No mention of lessons learned or future improvements.,Demonstrated deep self-awareness and how it changed their current habits.,Mentioned one thing they learned from the experience.,7,behavioral
+33,Impact,5,,3,2026-01-24 20:07:09.323,Outcome was vague or missing.,Quantified results with data ($ or %) and linked it to business goals.,"Provided a clear result (e.g., ""launched on time,"" ""fixed the bug"").",7,behavioral
+34,Action,5,,2,2026-01-24 20:07:09.323,"Spoke mostly about what ""the team"" did; vague on personal role.",Explained why they took specific actions and the trade-offs involved.,Clearly defined their specific contributions and steps.,7,behavioral
+35,Structure (STAR),5,,1,2026-01-24 20:07:09.323,Answer was disorganized; hard to follow the timeline.,"Mastered the ""Beat"": Brief setup, deep ""Action,"" and clear result.",Followed STAR clearly; easy to understand the context.,7,behavioral
+36,Evaluate (Complexity),5,,5,2026-01-24 20:07:09.323,"Cannot explain Big O or gives incorrect complexity analysis.
+
+","Explains the O(n) trade-offs and suggests potential optimizations for space or time.
+
+","Correctly identifies Time and Space complexity (e.g., $O(n)$).
+
+",8,coding
+37,Testing,5,,4,2026-01-24 20:07:09.323,"Says ""I'm done"" without checking; relies on the interviewer to find bugs.
+
+","Conducts a rigorous ""Dry Run"" with edge cases; catches and fixes bugs independently.
+
+","Manually walks through a simple test case to verify logic.
+
+",8,coding
+38,Implement,5,,3,2026-01-24 20:07:09.323,"Syntax errors; poor variable names; code is one giant, messy block.
+
+","Writes clean, modular code; handles edge cases gracefully; avoids ""spaghetti"" logic.
+
+","Writes working, readable code; uses standard naming conventions.
+
+",8,coding
+39,Match & Plan,5,,2,2026-01-24 20:07:09.323,"Logic is ""trial and error""; jumps into code without a clear strategy.
+
+","Explains the chosen algorithm vs. alternatives; gets interviewer ""buy-in"" on the plan.
+
+","Matches problem to a pattern (e.g., Two Pointers); writes high-level pseudocode.
+
+",8,coding
+40,"Clarification
+
+",5,,1,2026-01-24 20:07:09.323,"Starts coding immediately; misses edge cases (empty, null, negatives).","Defines constraints and identifies tricky edge cases before touching the keyboard.
+
+","Asks 1-2 clarifying questions about inputs/outputs.
+
+",8,coding
+41,Evaluate (Complexity),5,,5,2026-01-24 20:07:09.323,"Cannot explain Big O or gives incorrect complexity analysis.
+
+","Explains the O(n) trade-offs and suggests potential optimizations for space or time.
+
+","Correctly identifies Time and Space complexity (e.g., $O(n)$).
+
+",9,coding
+42,Testing,5,,4,2026-01-24 20:07:09.323,"Says ""I'm done"" without checking; relies on the interviewer to find bugs.
+
+","Conducts a rigorous ""Dry Run"" with edge cases; catches and fixes bugs independently.
+
+","Manually walks through a simple test case to verify logic.
+
+",9,coding
+43,Implement,5,,3,2026-01-24 20:07:09.323,"Syntax errors; poor variable names; code is one giant, messy block.
+
+","Writes clean, modular code; handles edge cases gracefully; avoids ""spaghetti"" logic.
+
+","Writes working, readable code; uses standard naming conventions.
+
+",9,coding
+44,Match & Plan,5,,2,2026-01-24 20:07:09.323,"Logic is ""trial and error""; jumps into code without a clear strategy.
+
+","Explains the chosen algorithm vs. alternatives; gets interviewer ""buy-in"" on the plan.
+
+","Matches problem to a pattern (e.g., Two Pointers); writes high-level pseudocode.
+
+",9,coding
+45,"Clarification
+
+",5,,1,2026-01-24 20:07:09.323,"Starts coding immediately; misses edge cases (empty, null, negatives).","Defines constraints and identifies tricky edge cases before touching the keyboard.
+
+","Asks 1-2 clarifying questions about inputs/outputs.
+
+",9,coding
+46,Evaluate (Complexity),5,,5,2026-01-24 20:07:09.323,"Cannot explain Big O or gives incorrect complexity analysis.
+
+","Explains the O(n) trade-offs and suggests potential optimizations for space or time.
+
+","Correctly identifies Time and Space complexity (e.g., $O(n)$).
+
+",10,coding
+47,Testing,5,,4,2026-01-24 20:07:09.323,"Says ""I'm done"" without checking; relies on the interviewer to find bugs.
+
+","Conducts a rigorous ""Dry Run"" with edge cases; catches and fixes bugs independently.
+
+","Manually walks through a simple test case to verify logic.
+
+",10,coding
+48,Implement,5,,3,2026-01-24 20:07:09.323,"Syntax errors; poor variable names; code is one giant, messy block.
+
+","Writes clean, modular code; handles edge cases gracefully; avoids ""spaghetti"" logic.
+
+","Writes working, readable code; uses standard naming conventions.
+
+",10,coding
+49,Match & Plan,5,,2,2026-01-24 20:07:09.323,"Logic is ""trial and error""; jumps into code without a clear strategy.
+
+","Explains the chosen algorithm vs. alternatives; gets interviewer ""buy-in"" on the plan.
+
+","Matches problem to a pattern (e.g., Two Pointers); writes high-level pseudocode.
+
+",10,coding
+50,"Clarification
+
+",5,,1,2026-01-24 20:07:09.323,"Starts coding immediately; misses edge cases (empty, null, negatives).","Defines constraints and identifies tricky edge cases before touching the keyboard.
+
+","Asks 1-2 clarifying questions about inputs/outputs.
+
+",10,coding

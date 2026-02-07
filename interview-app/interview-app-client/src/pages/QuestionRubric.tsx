@@ -22,6 +22,7 @@ export default function QuestionRubric() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const storageKey = questionId ? `rubric-draft-question-${questionId}` : null;
   const isFirstPersist = useRef(true);
@@ -88,16 +89,24 @@ export default function QuestionRubric() {
   };
 
   const submit = async () => {
-    await api.post("/rubrics", {
-      sessionId: null,
-      interviewerEmail: draft.interviewerEmail || null,
-      intervieweeEmail: draft.intervieweeEmail || null,
-      rubricData: draft.rows,
-      completed: true,
-    }, { withCredentials: true });
+    setSubmitError(null);
+    try {
+      await api.post("/rubrics", {
+        sessionId: null,
+        interviewerEmail: draft.interviewerEmail || null,
+        intervieweeEmail: draft.intervieweeEmail || null,
+        rubricData: draft.rows,
+        completed: true,
+      }, { withCredentials: true });
 
-    if (storageKey) localStorage.removeItem(storageKey);
-    alert("Rubric submitted");
+      if (storageKey) localStorage.removeItem(storageKey);
+      alert("Rubric submitted");
+    } catch (e: unknown) {
+      const msg =
+        (e as { response?: { data?: { error?: string }; status?: number } })?.response?.data?.error
+        ?? "Failed to submit rubric";
+      setSubmitError(msg);
+    }
   };
 
   const handleBack = () => navigate("/dashboard");
@@ -137,6 +146,10 @@ export default function QuestionRubric() {
         </p>
         <p className="mt-1">{question.questionText}</p>
       </div>
+
+      {submitError && (
+        <p className="text-red-600" role="alert">{submitError}</p>
+      )}
 
       {canGrade && (
         <div className="flex gap-4">
