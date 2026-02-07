@@ -152,9 +152,9 @@ export default function QuestionRubric() {
       )}
 
       {canGrade && (
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 md:flex-row">
           <input
-            className="border p-2 flex-1"
+            className="border p-2 flex-1 min-w-0"
             placeholder="Interviewer email"
             value={draft.interviewerEmail}
             onChange={(e) =>
@@ -162,7 +162,7 @@ export default function QuestionRubric() {
             }
           />
           <input
-            className="border p-2 flex-1"
+            className="border p-2 flex-1 min-w-0"
             placeholder="Interviewee email"
             value={draft.intervieweeEmail}
             onChange={(e) =>
@@ -175,8 +175,8 @@ export default function QuestionRubric() {
       {!canGrade ? (
         <p className="text-gray-600">No rubric has been assigned to this question yet.</p>
       ) : (
-        <div className="border-2 border-black overflow-hidden">
-          <table className="w-full border-collapse">
+        <div className="border-2 border-black overflow-x-auto">
+          <table className="w-full min-w-[600px] border-collapse">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border border-black p-2 text-left">Criteria</th>

@@ -91,8 +91,9 @@ export default function Dashboard() {
         <button
           type="button"
           onClick={handleSignOut}
-          className="text-gray-600 hover:text-black underline cursor-pointer"
-        >
+          className="bg-black text-white px-4 py-2 rounded-lg cursor-pointer"
+          >
+        
           Sign out
         </button>
       </div>
