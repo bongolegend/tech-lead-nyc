@@ -56,7 +56,7 @@ export default function QuestionRubric() {
     setError(null);
 
     api
-      .get<InterviewQuestion>(`/dashboard/questions/${questionId}`, { withCredentials: true })
+      .get<InterviewQuestion>(`/dashboard/questions/${questionId}`)
       .then(({ data }) => {
         if (cancelled) return;
         setQuestion(data);
@@ -97,7 +97,7 @@ export default function QuestionRubric() {
         intervieweeEmail: draft.intervieweeEmail || null,
         rubricData: draft.rows,
         completed: true,
-      }, { withCredentials: true });
+      });
 
       if (storageKey) localStorage.removeItem(storageKey);
       alert("Rubric submitted");

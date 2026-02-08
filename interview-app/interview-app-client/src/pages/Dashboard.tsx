@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { userAPI } from "../services/api";
 import { API_URL } from "../config/env";
+import { getAuthHeaders } from "../auth/token";
 
 type InterviewQuestion = {
   id: number;
@@ -36,7 +37,7 @@ export default function Dashboard() {
     const start = Date.now();
 
     fetch(`${API_URL}/dashboard/questions`, {
-      credentials: "include",
+      headers: getAuthHeaders(),
     })
       .then((res) => res.json())
       .then((data: InterviewQuestion[]) => {

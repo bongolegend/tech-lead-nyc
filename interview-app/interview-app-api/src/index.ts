@@ -1,18 +1,13 @@
 import 'dotenv/config';
 
-import connectPgSimple from 'connect-pg-simple';
 import cors from 'cors';
 import express from 'express';
-import session from 'express-session';
-import passport from 'passport';
 import path from 'path';
-import { Pool } from 'pg';
 
 console.log("SERVER ENTRY STARTED");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 8080;
-const isProd = process.env.NODE_ENV === 'production';
 
 app.get("/", (_req, res) => {
   res.send("ok");
@@ -34,40 +29,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session configuration (Postgres store so sessions persist across Cloud Run instances)
 app.set('trust proxy', 1);
-
-const pgPool = new Pool({ connectionString: process.env.DATABASE_URL });
-const PgSession = connectPgSimple(session);
-
-app.use(
-  session({
-    store: new PgSession({
-      pool: pgPool,
-      createTableIfMissing: true,
-    }),
-    name: 'sid',
-    secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: false,
-    proxy: true,
-    cookie: {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? 'none' : 'lax',
-    },
-  })
-);
-
-
-
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Startup env validation
 const requiredEnv = [
-  'SESSION_SECRET',
+  'JWT_SECRET',
   'GOOGLE_CLIENT_ID',
   'GOOGLE_CLIENT_SECRET',
   'GOOGLE_CALLBACK_URL',
@@ -81,8 +47,6 @@ if (missingEnv.length > 0) {
 }
 
 (async () => {
-  await import('./config/passport');
-
   const dashboardRoutes = (await import('./routes/dashboard.routes')).default;
   const authRoutes = (await import('./routes/auth.routes')).default;
   const rubricRoutes = (await import('./routes/rubric.routes')).default;
@@ -106,6 +70,6 @@ if (missingEnv.length > 0) {
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
-    console.log('Passport + routes initialized');
+    console.log('Routes initialized (JWT auth only)');
   });
 })();

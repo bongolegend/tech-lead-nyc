@@ -2,21 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 
 const FRONTEND_URL = process.env.FRONTEND_URL!;
 
-
-export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/auth/login');
-};
-
+/** Use requireJwt from middleware/jwtAuth for protection. This is only for profile-complete check. */
 export const isProfileComplete = (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated() && req.user) {
-    const user = req.user as any;
-    if (!user.profileCompleted) {
-      return res.redirect(`${FRONTEND_URL}/dashboard`);
-    }
-    return next();
+  const user = (req as any).user;
+  if (!user) {
+    return res.redirect(`${FRONTEND_URL}/login`);
   }
-  res.redirect('/auth/login');
+  if (!user.profileCompleted) {
+    return res.redirect(`${FRONTEND_URL}/dashboard`);
+  }
+  return next();
 };

@@ -31,7 +31,7 @@ DATABASE_URL="postgresql://<db_user>:<db_password>@localhost:5432/<db_name>"
 PORT=3000
 NODE_ENV=development
 
-SESSION_SECRET="some-long-random-string"
+JWT_SECRET="some-long-random-string-at-least-32-chars"
 
 GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
@@ -55,14 +55,30 @@ Create a `.env` file in `interview-app-client` (see `.env.example`):
 ```env
 # local = API at http://localhost:3000   prod = production Cloud Run API
 VITE_ENV=local
+
+# Same value as backend GOOGLE_CLIENT_ID (required for Sign in with Google)
+VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
 ```
 
-To point the client at production instead of local, set `VITE_ENV=prod`. No code changes needed.
+To point the client at production instead of local, set `VITE_ENV=prod`. Set `VITE_GOOGLE_CLIENT_ID` to your Google OAuth client ID (same as the backend’s `GOOGLE_CLIENT_ID`). No code changes needed.
 
 ### Switching between local and production
 
 - **Client**: In `interview-app-client/.env`, set `VITE_ENV=local` or `VITE_ENV=prod`. Restart the dev server after changing.
 - **API**: In `interview-app-api/.env`, set `FRONTEND_URL` and `API_URL` to either local (`http://localhost:5173`, `http://localhost:3000`) or production (Cloud Run client and server URLs). Production values are set by Pulumi when deploying.
+
+### Authentication (JWT + Google)
+
+Auth is JWT-based (no cookies), so it works across different origins and on mobile.
+
+- **Web**: User clicks “Sign in” → redirect to backend `/auth/google` → Google OAuth → backend redirects to frontend `/auth/callback?token=JWT` → frontend stores token and uses it on API requests via `Authorization: Bearer <token>`.
+- **Mobile**: Use Google Sign-In SDK to get an ID token, then `POST /auth/google/token` with body `{ "credential": "<id-token>" }`. Response is `{ user, token }`. Store the token and send `Authorization: Bearer <token>` on all API requests.
+
+For **Pulumi** deployments, set the JWT secret (replaces the previous session secret):
+
+```bash
+pulumi config set --secret jwt-secret "your-long-random-jwt-secret"
+```
 
 ---
 
@@ -257,6 +273,13 @@ docker push us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-cli
 cd pulumi
 
 pulumi up
+
+gcloud run deploy interview-app-server \
+  --image us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-server:latest \
+  --region us-east1 \
+  --platform managed \
+  --allow-unauthenticated
+
 ```
 
 ### Server 
@@ -273,6 +296,11 @@ docker push us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-ser
 cd pulumi
 
 pulumi up
+
+gcloud run deploy interview-app-client \
+  --image us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-client:latest \
+  --region us-east1
+
 ```
 
 ## Connecting to DB proxy:

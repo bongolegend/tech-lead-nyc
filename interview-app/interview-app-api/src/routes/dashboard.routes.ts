@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import axios from 'axios';
-import { isAuthenticated, isProfileComplete } from '../middleware/auth';
+import { requireJwt } from '../middleware/jwtAuth';
+import { isProfileComplete } from '../middleware/auth';
 import prisma from '../db/client';
 
 const router = Router();
@@ -8,7 +9,7 @@ const API_URL = process.env.API_URL!;
 const FRONTEND_URL = process.env.FRONTEND_URL!;
 
 // Onboarding page
-router.get('/onboarding', isAuthenticated, (req, res) => {
+router.get('/onboarding', requireJwt, (req, res) => {
   const user = req.user as any;
   if (user.profileCompleted) {
     res.redirect(`${FRONTEND_URL}/dashboard`);
@@ -17,7 +18,7 @@ router.get('/onboarding', isAuthenticated, (req, res) => {
 });
 
 // Handle onboarding form submission
-router.post('/onboarding', isAuthenticated, async (req, res) => {
+router.post('/onboarding', requireJwt, async (req, res) => {
   try {
     const user = req.user as any;
     const { professionalLevel, hasBeenHiringManager } = req.body;
@@ -78,7 +79,7 @@ router.get("/questions/:id", async (req, res) => {
 
 
 // Dashboard page
-router.get('/', isAuthenticated, isProfileComplete, async (req, res) => {
+router.get('/', requireJwt, isProfileComplete, async (req, res) => {
   try {
     const user = req.user as any;
     const response = await axios.get(`${API_URL}/api/users/${user.email}/dashboard`);

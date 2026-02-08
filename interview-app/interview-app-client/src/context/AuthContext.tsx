@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User } from "../types/types";
 import { API_URL } from "../config/env";
+import { getStoredToken, clearStoredToken } from "../auth/token";
 
 interface AuthContextType {
   user: User | null;
@@ -18,19 +19,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!window.location.pathname.startsWith("/dashboard")) return;
-  
-    fetch(`${API_URL}/auth/me`, { credentials: "include" })
-      .then(res => res.ok ? res.json() : null)
+    const token = getStoredToken();
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    fetch(`${API_URL}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          clearStoredToken();
+          return null;
+        }
+        return res.json();
+      })
       .then(setUser)
       .finally(() => setLoading(false));
   }, []);
-  
 
-  const logout = async () => {
-    await fetch(`${API_URL}/auth/logout`, {
-      credentials: "include",
-    });
+  const logout = () => {
+    clearStoredToken();
     setUser(null);
   };
 

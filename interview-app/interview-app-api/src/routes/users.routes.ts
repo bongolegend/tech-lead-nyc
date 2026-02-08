@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { updateProfile, getUser } from '../controllers/users.controller';
-import { isAuthenticated } from '../middleware/auth';
+import { requireJwt } from '../middleware/jwtAuth';
 
 const router = Router();
 
-router.get('/:email', isAuthenticated, getUser);
-router.put('/:email/profile', isAuthenticated, updateProfile);
+router.get('/:email', requireJwt, getUser);
+router.put('/:email/profile', requireJwt, updateProfile);
 
 export default router;

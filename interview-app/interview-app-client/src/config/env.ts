@@ -9,3 +9,6 @@ const LOCAL_API_URL = "http://localhost:3000";
 export const API_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.VITE_ENV === "prod" ? PROD_API_URL : LOCAL_API_URL);
+
+/** Google Client ID for Sign-In (same as backend GOOGLE_CLIENT_ID). Set VITE_GOOGLE_CLIENT_ID in .env */
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";

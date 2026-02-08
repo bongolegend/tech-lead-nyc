@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { User, GradingRubric } from '../types/types';
 import { API_URL } from '../config/env';
+import { getStoredToken, clearStoredToken } from '../auth/token';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -9,12 +10,34 @@ const api = axios.create({
   },
 });
 
+api.interceptors.request.use((config) => {
+  const token = getStoredToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      clearStoredToken();
+      if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(err);
+  }
+);
+
 export const authAPI = {
-  googleLogin: async (credential: string) => {
-    const response = await api.post<{ user: User }>('/api/auth/google', { credential });
+  /** Exchange Google ID token (e.g. from mobile SDK) for our JWT and user. */
+  googleToken: async (credential: string) => {
+    const response = await api.post<{ user: User; token: string }>('/auth/google/token', { credential });
     return response.data;
   },
-  
+
   getCurrentUser: async (email: string) => {
     const response = await api.get<User>(`/api/users/${email}`);
     return response.data;
@@ -23,9 +46,7 @@ export const authAPI = {
 
 export const userAPI = {
   updateProfile: async (email: string, data: { professionalLevel: string; hasBeenHiringManager: boolean }) => {
-    const response = await api.put<User>(`/api/users/${email}/profile`, data, {
-      withCredentials: true,
-    });
+    const response = await api.put<User>(`/api/users/${email}/profile`, data);
     return response.data;
   },
   

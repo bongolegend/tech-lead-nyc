@@ -18,7 +18,7 @@ export function createInterviewAppServer(
   const googleClientId = config.requireSecret("google-client-id");
   const googleClientSecret = config.requireSecret("google-client-secret");
 
-  const sessionSecret = config.requireSecret("session-secret");
+  const jwtSecret = config.requireSecret("jwt-secret");
 
   // Image tag from config so you can deploy a new build: build & push, then
   // pulumi config set server-image-tag <tag> (e.g. latest or a digest) and pulumi up
@@ -73,7 +73,7 @@ export function createInterviewAppServer(
                   "https://interview-app-client-z6tjwkruwq-ue.a.run.app",
               },
 
-              { name: "SESSION_SECRET", value: sessionSecret },
+              { name: "JWT_SECRET", value: jwtSecret },
             ],
 
             volumeMounts: [
