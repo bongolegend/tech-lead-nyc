@@ -26,6 +26,12 @@ export function createInterviewAppClient(
           {
             image: clientImage,
             ports: { containerPort: 80 },
+            envs: [
+              {
+                name: "VITE_GOOGLE_CLIENT_ID",
+                value: config.require("VITE_GOOGLE_CLIENT_ID"),
+              },
+            ],
           },
         ],
         scaling: { minInstanceCount: 1, maxInstanceCount: 10 },

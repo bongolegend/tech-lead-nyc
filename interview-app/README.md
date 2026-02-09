@@ -264,6 +264,7 @@ Note: pulumi bushes both frontend and backend images to cloud
 cd interview-app/interview-app-client
 
 docker build --no-cache \
+  --build-arg VITE_GOOGLE_CLIENT_ID=831130136724-d1q8bm696ha0a6m1lerfe4jhcmsd77d7.apps.googleusercontent.com \
   -t us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-client:latest \
   -f Dockerfile \
   .
@@ -274,11 +275,12 @@ cd pulumi
 
 pulumi up
 
-gcloud run deploy interview-app-server \
-  --image us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-server:latest \
+gcloud run deploy interview-app-client \
+  --image us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-client:latest \
   --region us-east1 \
-  --platform managed \
-  --allow-unauthenticated
+  --port 80
+
+
 
 ```
 
@@ -297,9 +299,12 @@ cd pulumi
 
 pulumi up
 
-gcloud run deploy interview-app-client \
-  --image us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-client:latest \
-  --region us-east1
+gcloud run deploy interview-app-server \
+  --image us-east1-docker.pkg.dev/tech-lead-nyc/registry0-shared/interview-server:latest \
+  --region us-east1 \
+  --platform managed \
+  --allow-unauthenticated
+
 
 ```
 

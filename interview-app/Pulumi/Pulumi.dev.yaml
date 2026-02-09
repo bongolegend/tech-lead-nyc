@@ -14,3 +14,6 @@ config:
     secure: v1:HN4kifnomsIC6sNJ:Ikdsvh3lxWVpWL6mlun/h9AvWJT8SYObt/pN2Vear/TFEvsiMD/SKtNlrQnX4Fvi
   nyc-tech-lead:server-image-tag: latest
   nyc-tech-lead:client-image-tag: latest
+  nyc-tech-lead:jwt-secret:
+    secure: v1:/spqBLTiYfuilBP2:pZ7CQ6U4z3anHnJ5K10j/RIhkrh2mAtqEKNh49rFPyKihQkV+TOGgs6+A0gfnnTLWixWVvi8cPaX9LY=
+  nyc-tech-lead:VITE_GOOGLE_CLIENT_ID: 831130136724-d1q8bm696ha0a6m1lerfe4jhcmsd77d7.apps.googleusercontent.com

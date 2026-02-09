@@ -25,6 +25,18 @@ router.post('/google/token', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/google/callback', async (req: Request, res: Response) => {
+  const credential = req.body?.credential as string | undefined;
+  if (!credential) return res.status(400).send('Missing credential');
+
+  const user = await verifyGoogleIdTokenAndGetUser(credential);
+  if (!user) return res.status(401).send('Invalid Google credential');
+
+  const token = signToken(user);
+  res.redirect(`${process.env.FRONTEND_URL}/#token=${encodeURIComponent(token)}`);
+});
+
+
 // --- Current user (requires JWT) ---
 
 router.get('/me', requireJwt, (req: Request, res: Response) => {

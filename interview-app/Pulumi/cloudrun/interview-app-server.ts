@@ -72,7 +72,7 @@ export function createInterviewAppServer(
                 value:
                   "https://interview-app-client-z6tjwkruwq-ue.a.run.app",
               },
-
+              { name: "VITE_GOOGLE_CLIENT_ID", value: config.require("VITE_GOOGLE_CLIENT_ID") },
               { name: "JWT_SECRET", value: jwtSecret },
             ],
 
