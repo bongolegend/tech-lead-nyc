@@ -4,8 +4,16 @@ import AuthCallback from "./pages/AuthCallback";
 import RequireAuth from "./components/RequireAuth";
 import Dashboard from "./pages/Dashboard";
 import QuestionRubric from "./pages/QuestionRubric";
-
+import { setStoredToken } from "./auth/token";
 export default function App() {
+  const hash = window.location.hash;
+
+  if (hash.startsWith("#token=")) {
+    const token = hash.slice("#token=".length);
+    setStoredToken(token);
+    window.history.replaceState(null, "", "/");
+  }
+  
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />

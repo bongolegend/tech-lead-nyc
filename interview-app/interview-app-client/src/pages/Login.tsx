@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { authAPI } from "../services/api";
 import { setStoredToken } from "../auth/token";
-import { GOOGLE_CLIENT_ID } from "../config/env";
+import { API_URL, GOOGLE_CLIENT_ID } from "../config/env";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -28,12 +28,23 @@ export default function Login() {
     const run = () => {
       if (!window.google?.accounts?.id || !buttonRef.current) return;
 
+      const isMobile =
+      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      window.matchMedia("(pointer: coarse)").matches;
+    
       window.google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
-        callback: (response: { credential: string }) => {
-          callbackRef.current?.(response.credential);
-        },
-      });
+        callback: !isMobile
+          ? (response: { credential: string }) => {
+              callbackRef.current?.(response.credential);
+            }
+          : undefined,
+        ux_mode: isMobile ? "redirect" : "popup",
+        login_uri: isMobile ? `${API_URL}/auth/google/callback` : undefined,
+      } as any);
+      
+      
+    
 
       window.google.accounts.id.renderButton(buttonRef.current, {
         type: "standard",
